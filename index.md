@@ -4,7 +4,7 @@
 
 ### Personal Projects 
 
-[Utilizing Autoencoders For Anomaly Detection](/sample_page)
+[Utilizing Autoencoders For Anomaly Detection](/time_series_autoencoder)
 <img src="images/anomaly_detection.png?raw=true"/>
 
 ---
@@ -24,8 +24,6 @@
 - [Project 3 Title](http://example.com/)
 - [Project 4 Title](http://example.com/)
 - [Project 5 Title](http://example.com/) -->
-
---- -->
 
 
 
