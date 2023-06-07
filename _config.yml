@@ -1,9 +1,8 @@
 title: Ryan Lee # your name (or website title) here
 logo: "/images/profile.png?raw=true" # your photo (or logo) here
+
 description: > # your text below (remove <br> elements if you don't need line breaks)
   I am a Data Scientist with extensive experience in data analysis, statistical modeling, machine learning, and product management. Strong communication skills, a desire to learn, and the ability to work in a fast-paced and dynamic environment. Proficient in Python, R, and SQL, including libraries such as Scikit-learn, Tensorflow, Numpy, Pandas, Tidyverse, and MASS. Expertise in multivariate time series data analysis and modeling, with experience training stakeholders in analysis techniques and mentoring junior data scientists. 
-  <br><br>
-  Second description 
   <br><br>
   <a href="https://www.linkedin.com/in/ryan-lee-877b0646/">View My LinkedIn Profile</a> 
   
