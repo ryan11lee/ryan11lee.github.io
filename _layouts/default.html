@@ -30,10 +30,14 @@
         <p class="view"><a href="{{ site.github.owner_url }}">View My GitHub Profile</a></p>
         {% endif %}
 
-        <!-- add link to resume.md -->
+        <!-- add link to page resume.md in the files not external page -->
+        {% if site.resume %}
+        <p class="view"><a href="{{ site.resume | relative_url }}">View My Resume</a></p>
+        {% endif %}
 
-        <p class="view"><a href="{{ "/resume/" | absolute_url }}">View My Resume</a></p>
+     
 
+        {% if site.show_downloads %}
         {% if site.show_downloads %}
         <ul class="downloads">
           <li><a href="{{ site.github.zip_url }}">Download <strong>ZIP File</strong></a></li>
