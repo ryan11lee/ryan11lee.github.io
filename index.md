@@ -1,8 +1,8 @@
 ## Resume
 [View My Resume](/resume.md)
-## Portfolio
 
 ---
+
 
 ### Personal Projects 
 
