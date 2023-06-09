@@ -1,9 +1,9 @@
-## Resume
+<!-- ## Resume
 [View My Resume](/resume.md)
 
 ---
 
-
+ -->
 ### Personal Projects 
 
 [Utilizing Autoencoders For Anomaly Detection](/time_series_autoencoder)
