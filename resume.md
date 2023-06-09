@@ -12,17 +12,17 @@ Data Scientist with extensive experience in data analysis, statistical modeling,
 
 EDUCATION
 
-**Northwestern University |** Evanston, IL March 2021
+**Northwestern University** Evanston, IL March 2021
 
 _Master of Science, Data Science_ GPA 3.975
 
-**University of California, Davis |** Davis, CA June 2012
+**University of California, Davis** Davis, CA June 2012
 
 _Bachelor of Science, Biological Sciences_
 
 PROFESSIONAL HISTORY
 
-**Amyris |** Emeryville, CA July 2022 - Present
+**Amyris** Emeryville, CA July 2022 - Present
 
 Data Scientist 3
 
@@ -36,7 +36,7 @@ Responsible for developing Data Science strategy and modeling deep learning and 
 - Collaborated with cross-functional teams to ensure seamless integration of models into the scientific workflow.
 - Mentored Junior Data Scientist on a project to build new time series summary and performance metrics. These features enable more interpretable machine learning models.
 
-**Demetrix |** Berkeley, CA July 2018 - June 2022
+**Demetrix** Berkeley, CA July 2018 - June 2022
 
 Data Scientist & Technical Project Manager
 
@@ -50,7 +50,7 @@ Developed models and performed statistical tests to determine new processes, inc
 - Managed fermentation platform, wrote technical requirements, tested software, and provided end-user support.
 - Managed the concept-to-launch of an internal tooling system for experiment tracking for fermentation and high-throughput engineering teams' data.
 
-**Zymergen |** Emeryville, CA July 2015 - July 2018
+**Zymergen** Emeryville, CA July 2015 - July 2018
 
 Research Associate III
 
@@ -62,7 +62,7 @@ Responsible for the independent execution of small-scale fermentations to meet c
 - Managed fermentation lab expansion for a 10x increase in tanks. Communicating with vendors to ensure timely delivery and mitigate reduced process throughput.
 - Established documentation for standardized statistical analyses to allow consistent analysis across users and projects.
 
-**BP Biofuels - Global Technology Center |** San Diego, CA May 2013 - July 2015
+**BP Biofuels - Global Technology Center** San Diego, CA May 2013 - July 2015
 
 Research Associate
 
@@ -73,7 +73,7 @@ Responsible for the independent execution of small-scale fermentations to aid bi
 - Worked on various projects simultaneously between third parties and feasibility studies.
 - Initiated a cross-functional quality control team to reduce data turnaround time.
 
-**Natural Alternatives International |** Vista, CA September 2012 - May 2013
+**Natural Alternatives International** Vista, CA September 2012 - May 2013
 
 Quality Assurance Technician
 
