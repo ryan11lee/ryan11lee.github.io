@@ -34,7 +34,7 @@ variable_plot_selection
 ```
 For the purposes of this write up we will only show Penicillin, as this is the target molecule and will be the most evident that a deviation was present in the data. 
 
-![Alt text](images/image.png)
+![Penicillin Plotted by Reference Category](images/image.png)
 
 As is evident in the plots above, the recipe, and operator have runs with lower performance that dont not follow the average trend. Given the large number of runs, and the need to seperate runs into "good" we will use an unsupervised learning approach to see if what clusters are present in the time series.
 
