@@ -22,6 +22,22 @@ One thing, that is common with fermentation data is there is similar but variabl
 
 As we see there is some variability in the length of runs, we will ensure that anything that is not within 2 standard deviations of the mean will be removed from the potential pool of training data as this method will rely on the training runs being labeled as "good" runs.
 
+Additionally, we will look at the distribution of the data for each column. The min/max values and ensure visually that the data is not skewed, or seems problematic.
+
+Utilizing a quick ipywidget we can identify trends with each label an ensure that each group appears similar.
+
+```python
+import ipywidgets as widgets
+ 
+variable_plot_selection = widgets.Dropdown(options=variable_list, value = 'Penicillin concentration(P:g/L)')
+variable_plot_selection
+```
+For the purposes of this write up we will only show Penicillin, as this is the target molecule and will be the most evident that a deviation was present in the data. 
+
+![Alt text](images/image.png)
+
+As is evident in the plots above, the recipe, and operator have runs with lower performance that dont not follow the average trend. Given the large number of runs, and the need to seperate runs into "good" we will use an unsupervised learning approach to see if what clusters are present in the time series.
+
 
 
 <!-- 
