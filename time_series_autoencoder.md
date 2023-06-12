@@ -38,6 +38,23 @@ For the purposes of this write up we will only show Penicillin, as this is the t
 
 As is evident in the plots above, the recipe, and operator have runs with lower performance that dont not follow the average trend. Given the large number of runs, and the need to seperate runs into "good" we will use an unsupervised learning approach to see if what clusters are present in the time series.
 
+### Labeling Runs
+Refer to this post to go into a deeper dive of clustering time series trends [link](/time_series_clustering). We will select a k of 4 given the listed conditions in the dataset, the scree plot suggests 2 clusters is suffcient but it only seperates one gross outlier. As we see in the image there is good seperation even though they are clusters 0,1,2 are very close to each other.
+
+<img src="images/Clusters.png?raw=true"/>
+
+After running throught the code we see that there is x number of ideal clusters.
+
+After dynamic time warping K-means clustering, we see that there are 4 clusters that are ideal for the data. With cluster representing the most ideal trend, and the remaining clusters representing the other trends, with reduced performance of penicillin production.
+
+<img src="images/clusters_penicillin.png?raw=true"/>
+
+### Building an AutoEncoder
+
+Now that we have labeled data, we will consider all runs in cluster 2 to be performant and what we want to train the model on. The reason is that while there is useful data in the other clustered runs, we want to train the model on the most ideal runs, as including anaomalous runs in the encoder will allow the model to recreate incorrect trends. 
+
+
+
 
 
 <!-- 
