@@ -7,8 +7,10 @@
 ### Personal Projects 
 
 [Utilizing Autoencoders For Anomaly Detection](/time_series_autoencoder)
-<img src="images/anomaly_detection.png?raw=true"/>
+<img src="images/ae_ferm/anomaly_detection.png?raw=true"/>
 
+[Exploration of Dynamic Time Warping](/time_series_clustering)
+<img src="images/dtw/dtw.png?raw=true"/>
 
 
 <!-- ---
