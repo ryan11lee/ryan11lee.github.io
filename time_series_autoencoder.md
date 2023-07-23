@@ -1,6 +1,6 @@
 ## Utilizing Autoencoders for Anomaly Detection in Time Series Data
 
-**Project description:** With data from 
+###Project description:
 
 Using data from [Kaggle](https://www.kaggle.com/datasets/stephengoldie/big-databiopharmaceutical-manufacturing)'s, "Big Data Biopharmaceutical Manufacturing" dataset, I developed an anomaly detection model specifically designed for fermentation processes. Fermentation data is characterized by being a time series, exhibiting specific trends that may include occasional spikes, which are considered normal behavior during a successful run. However, many automated tools often flag these spikes as errors, leading to false alarms.
 
@@ -10,7 +10,7 @@ This anomaly detection model offers an effective solution for identifying anomal
 
  <!-- I created an anomaly detection model that allows for fermentation process. Because fermentation data is a time series, with specific trends having "spikes" as part of a good run, a lot automated tooling will detect errors, when they are actually normal behaviors. The apporach i took was that since there is training data for "good" runs, we will build an autoencoder, whrre the reconstruction will be compared to the original trend. Any difference between actual and predicted will be summarized as error. Thus with enough runs, we can determine a mean for the population and see which runs are statistically an outlier. -->
 
-### Exploratory Data Analysis
+### Exploratory Data Analysis:
 
 Control logic during fermentation is difficult to discern when a run is deviating vs being controlled correctly so build a model that can be fit to understand the normal trends vs deviations. 
 
@@ -38,7 +38,7 @@ For the purposes of this write up we will only show Penicillin, as this is the t
 
 As is evident in the plots above, the recipe, and operator have runs with lower performance that dont not follow the average trend. Given the large number of runs, and the need to seperate runs into "good" we will use an unsupervised learning approach to see if what clusters are present in the time series.
 
-### Labeling Runs
+### Labeling Runs:
 Refer to this post to go into a deeper dive of clustering time series trends [link](/time_series_clustering). We will select a k of 4 given the listed conditions in the dataset, the scree plot suggests 2 clusters is suffcient but it only seperates one gross outlier. As we see in the image there is good seperation even though they are clusters 0,1,2 are very close to each other.
 
 <img src="images/ae_ferm/Clusters.png?raw=true"/>
@@ -49,7 +49,7 @@ After dynamic time warping K-means clustering, we see that there are 4 clusters 
 
 <img src="images/ae_ferm/clusters_penicillin.png?raw=true"/>
 
-### Building an AutoEncoder
+### Building an AutoEncoder:
 Autoencoders are a type of neural network that are used to learn efficient data codings in an unsupervised manner. The aim of an autoencoder is to learn a representation (encoding) for a set of data, typically for dimensionality reduction, by training the network to ignore signal “noise”. Along with the reduction side, a reconstructing side is learnt, where the autoencoder tries to generate from the reduced encoding a representation as close as possible to its original input, hence its name.
 
 Now that we have labeled data, we will consider all runs in cluster 2 to be performant and what we want to train the model on. The reason is that while there is useful data in the other clustered runs, we want to train the model on the most ideal runs, as including anaomalous runs in the encoder will allow the model to recreate incorrect trends. If an end client identified other runs to be of interest or considered normal we would add those into the model But for the purposes of this write up we will only consider the most ideal runs, or "Golden" runs.
@@ -63,7 +63,7 @@ An example of an autoencoder
 
 
 
-#### Data Prep for Model
+#### Data Prep for Model:
 
 First we will build a series of functions to enable easy data prep for the model.
 
@@ -82,7 +82,7 @@ In order to determine an "outlier" run, we will plot the error of model on the t
  <img src="images/ae_ferm/loss_dist.png?raw=true"/>
 As we see above the boxplot for the we consider runs above the red line 3 standard deviations above the mean to be outliers. This is a conservative approach, and we could adjust this to be more or less conservative depending on the needs of the client.
 
-### Results
+### Results:
 
 
 After trainign the model, we will look at examples of the model performance and demonstarte the the value in visualizing the error. 
@@ -97,7 +97,7 @@ Next we will observe a run that is not ideal, and see how the model performs.
 
 With this run, there is a MAE score 1, and thus is an anomalous and can be considered an outlier. Which a subject matter expert would be able to also identify as an outlier, so now the end user can decide to investigate the run, with the visualiation of the error to help them make a decision as to if the anomaly is worth investigating, or a run to be ignored.
 
-### Conclusion
+### Conclusion:
 
 Autoencoders, work well with complex time series, and provide interpretable and useful outputs for scientists to explore potential reasons a fermentation run was anomalous.
 
