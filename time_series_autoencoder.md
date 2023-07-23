@@ -10,7 +10,7 @@ This anomaly detection model offers an effective solution for identifying anomal
 
  <!-- I created an anomaly detection model that allows for fermentation process. Because fermentation data is a time series, with specific trends having "spikes" as part of a good run, a lot automated tooling will detect errors, when they are actually normal behaviors. The apporach i took was that since there is training data for "good" runs, we will build an autoencoder, whrre the reconstruction will be compared to the original trend. Any difference between actual and predicted will be summarized as error. Thus with enough runs, we can determine a mean for the population and see which runs are statistically an outlier. -->
 
-### 1. Exploratory Data Analysis
+### Exploratory Data Analysis
 
 Control logic during fermentation is difficult to discern when a run is deviating vs being controlled correctly so build a model that can be fit to understand the normal trends vs deviations. 
 
@@ -18,7 +18,7 @@ After downloading the data we begin some exploratory data analysis
 
 One thing, that is common with fermentation data is there is similar but variable length of time for each run or the the length of time points is variable. We will not want to train with any outlier time series data and first we will look at the shape of each run.
 
-<img src="images/hist_rows_by_batch.png?raw=true"/>
+<img src="images/ae_ferm/hist_rows_by_batch.png?raw=true"/>
 
 As we see there is some variability in the length of runs, we will ensure that anything that is not within 2 standard deviations of the mean will be removed from the potential pool of training data as this method will rely on the training runs being labeled as "good" runs.
 
@@ -34,20 +34,20 @@ variable_plot_selection
 ```
 For the purposes of this write up we will only show Penicillin, as this is the target molecule and will be the most evident that a deviation was present in the data. 
 
-![Penicillin Plotted by Reference Category](images/image.png)
+![Penicillin Plotted by Reference Category](images/ae_ferm/image.png)
 
 As is evident in the plots above, the recipe, and operator have runs with lower performance that dont not follow the average trend. Given the large number of runs, and the need to seperate runs into "good" we will use an unsupervised learning approach to see if what clusters are present in the time series.
 
 ### Labeling Runs
 Refer to this post to go into a deeper dive of clustering time series trends [link](/time_series_clustering). We will select a k of 4 given the listed conditions in the dataset, the scree plot suggests 2 clusters is suffcient but it only seperates one gross outlier. As we see in the image there is good seperation even though they are clusters 0,1,2 are very close to each other.
 
-<img src="images/Clusters.png?raw=true"/>
+<img src="images/ae_ferm/Clusters.png?raw=true"/>
 
 After running throught the code we see that there is x number of ideal clusters.
 
 After dynamic time warping K-means clustering, we see that there are 4 clusters that are ideal for the data. With cluster representing the most ideal trend, and the remaining clusters representing the other trends, with reduced performance of penicillin production.
 
-<img src="images/clusters_penicillin.png?raw=true"/>
+<img src="images/ae_ferm/clusters_penicillin.png?raw=true"/>
 
 ### Building an AutoEncoder
 Autoencoders are a type of neural network that are used to learn efficient data codings in an unsupervised manner. The aim of an autoencoder is to learn a representation (encoding) for a set of data, typically for dimensionality reduction, by training the network to ignore signal “noise”. Along with the reduction side, a reconstructing side is learnt, where the autoencoder tries to generate from the reduced encoding a representation as close as possible to its original input, hence its name.
@@ -56,7 +56,7 @@ Now that we have labeled data, we will consider all runs in cluster 2 to be perf
 
 An example of an autoencoder 
 
-<img src="images/Autoencoders-graph.png?raw=true"/>
+<img src="images/ae_ferm/Autoencoders-graph.png?raw=true"/>
 
 [Source](https://www.compthree.com/blog/autoencoder/)
 
@@ -71,7 +71,7 @@ These involve getting the maximum size of the dataset, this way we can ensure eq
 Once the size is determined we will pad the data with 0's to ensure that the model can learn the trends. The choice of 0's is because if a run is terminated the probes etc would no longer be reading data and would be 0.
 The model for demonstration will be a single variable model **Dissolved oxygen concentration(DO2:mg/L)**. This is because the model will be able to learn the trends of a single variable and we can see how the model performs. The model can be expanded to include all variables, but for the purposes of this write up we will only consider a single variable.
 
- <img src="images/AE-Control-Run.png?raw=true"/>
+ <img src="images/ae_ferm/AE-Control-Run.png?raw=true"/>
 
 Following this initial data prep we will also need to prepare the data for the model. We will need to normalize the data. We will also need to ensure that the data is in a format that the model can understand. We will need to reshape the data to be in a 3D format, where the first dimension is the number of samples, the second dimension is the number of time steps, and the third dimension is the number of features. 
 
@@ -79,7 +79,7 @@ With the transformed data we will now fit the model. The encoder and decoder wil
 
 In order to determine an "outlier" run, we will plot the error of model on the training data. After we observethe distrubiiton of the loss function we can determine a threshold value for the loss function. This will be the value that we will use to determine if a run is an outlier or not, and account for the noise in the training data.
 
- <img src="images/loss_dist.png?raw=true"/>
+ <img src="images/ae_ferm/loss_dist.png?raw=true"/>
 As we see above the boxplot for the we consider runs above the red line 3 standard deviations above the mean to be outliers. This is a conservative approach, and we could adjust this to be more or less conservative depending on the needs of the client.
 
 ### Results
@@ -87,13 +87,13 @@ As we see above the boxplot for the we consider runs above the red line 3 standa
 
 After trainign the model, we will look at examples of the model performance and demonstarte the the value in visualizing the error. 
 
-<img src="images/good_mae_01.png?raw=true"/>
+<img src="images/ae_ferm/good_mae_01.png?raw=true"/>
 
 As we see and have calculated the error is 0.02, which is within 3 standard deviations of the mean. This is a good run and the model is able to predict the trend well.
 
 Next we will observe a run that is not ideal, and see how the model performs.
 
-<img src="images/anomalous_mae.png?raw=true"/>
+<img src="images/ae_ferm/anomalous_mae.png?raw=true"/>
 
 With this run, there is a MAE score 1, and thus is an anomalous and can be considered an outlier. Which a subject matter expert would be able to also identify as an outlier, so now the end user can decide to investigate the run, with the visualiation of the error to help them make a decision as to if the anomaly is worth investigating, or a run to be ignored.
 
