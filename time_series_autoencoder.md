@@ -50,11 +50,62 @@ After dynamic time warping K-means clustering, we see that there are 4 clusters 
 <img src="images/clusters_penicillin.png?raw=true"/>
 
 ### Building an AutoEncoder
+Autoencoders are a type of neural network that are used to learn efficient data codings in an unsupervised manner. The aim of an autoencoder is to learn a representation (encoding) for a set of data, typically for dimensionality reduction, by training the network to ignore signal “noise”. Along with the reduction side, a reconstructing side is learnt, where the autoencoder tries to generate from the reduced encoding a representation as close as possible to its original input, hence its name.
 
-Now that we have labeled data, we will consider all runs in cluster 2 to be performant and what we want to train the model on. The reason is that while there is useful data in the other clustered runs, we want to train the model on the most ideal runs, as including anaomalous runs in the encoder will allow the model to recreate incorrect trends. 
+Now that we have labeled data, we will consider all runs in cluster 2 to be performant and what we want to train the model on. The reason is that while there is useful data in the other clustered runs, we want to train the model on the most ideal runs, as including anaomalous runs in the encoder will allow the model to recreate incorrect trends. If an end client identified other runs to be of interest or considered normal we would add those into the model But for the purposes of this write up we will only consider the most ideal runs, or "Golden" runs.
+
+An example of an autoencoder 
+
+<img src="images/Autoencoders-graph.png?raw=true"/>
+
+[Source](https://www.compthree.com/blog/autoencoder/)
 
 
 
+
+#### Data Prep for Model
+
+First we will build a series of functions to enable easy data prep for the model.
+
+These involve getting the maximum size of the dataset, this way we can ensure equal lengths for the model to ouput.
+Once the size is determined we will pad the data with 0's to ensure that the model can learn the trends. The choice of 0's is because if a run is terminated the probes etc would no longer be reading data and would be 0.
+The model for demonstration will be a single variable model **Dissolved oxygen concentration(DO2:mg/L)**. This is because the model will be able to learn the trends of a single variable and we can see how the model performs. The model can be expanded to include all variables, but for the purposes of this write up we will only consider a single variable.
+
+ <img src="images/AE-Control-Run.png?raw=true"/>
+
+Following this initial data prep we will also need to prepare the data for the model. We will need to normalize the data. We will also need to ensure that the data is in a format that the model can understand. We will need to reshape the data to be in a 3D format, where the first dimension is the number of samples, the second dimension is the number of time steps, and the third dimension is the number of features. 
+
+With the transformed data we will now fit the model. The encoder and decoder will be the same shapes, and the model will be a sequential model. The model will be trained on the "Golden" runs, and then we will test the model on the other runs to see how the model performs.
+
+In order to determine an "outlier" run, we will plot the error of model on the training data. After we observethe distrubiiton of the loss function we can determine a threshold value for the loss function. This will be the value that we will use to determine if a run is an outlier or not, and account for the noise in the training data.
+
+ <img src="images/loss_dist.png?raw=true"/>
+As we see above the boxplot for the we consider runs above the red line 3 standard deviations above the mean to be outliers. This is a conservative approach, and we could adjust this to be more or less conservative depending on the needs of the client.
+
+### Results
+
+
+After trainign the model, we will look at examples of the model performance and demonstarte the the value in visualizing the error. 
+
+<img src="images/good_mae_01.png?raw=true"/>
+
+As we see and have calculated the error is 0.02, which is within 3 standard deviations of the mean. This is a good run and the model is able to predict the trend well.
+
+Next we will observe a run that is not ideal, and see how the model performs.
+
+<img src="images/anomalous_mae.png?raw=true"/>
+
+With this run, there is a MAE score 1, and thus is an anomalous and can be considered an outlier. Which a subject matter expert would be able to also identify as an outlier, so now the end user can decide to investigate the run, with the visualiation of the error to help them make a decision as to if the anomaly is worth investigating, or a run to be ignored.
+
+### Conclusion
+
+Autoencoders, work well with complex time series, and provide interpretable and useful outputs for scientists to explore potential reasons a fermentation run was anomalous.
+
+Additionally, the model itself was realitviely fast to train thus providing the Data Scientist with easy to optmize models and thus deployment and future api calls against the model can be fast and efficient.
+
+The downsides of this model so far appear to be the specificty of the model to "golden" runs. Where a client would need to provide a set of labeled runs where this model would be able to learn the trends. Additionally, one of the best use cases of a model like this is in a manfuacturing or scale up space where the process is consitent. In a process development environment, there are applications where scientists can observe the differences between process changes and there effects on online trends but given limited tank capcity it could be a potential issue of building a model for every process change.
+
+However, the model is able to provide a useful tool for scientists to explore the data and provide a useful tool for the end user to explore the data and make decisions on how to proceed with the data. Additionally, if the model is deployed in a production environment, the model can be used to flag anomalous runs and provide a useful tool for the end user to explore the data and make decisions on how to proceed with the data.
 
 
 <!-- 
