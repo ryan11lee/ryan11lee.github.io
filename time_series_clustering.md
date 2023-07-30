@@ -6,3 +6,4 @@ Dynamic Time Warping (DTW) is a method for measuring similarity between two temp
 
 ### Data
 
+The data provided by Kaggle is a collection of time series data from a biopharmaceutical manufacturing process. The data consists of 100 batches. The data is provided in a CSV file, with each row representing a single observation, and each column representing a single time series. The data is provided in a "wide" format, with each time series in a separate column. The data is also provided in a "long" format, with each observation in a separate row. The data is provided in both formats to allow for easy use with different software packages.
