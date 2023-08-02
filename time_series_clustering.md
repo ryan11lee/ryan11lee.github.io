@@ -2,27 +2,29 @@
 
 ### Description
 
-Dynamic Time Warping (DTW) is a method for measuring similarity between two temporal sequences which may vary in speed. It is a powerful tool for time series clustering, and is often used in the fields of data mining, pattern recognition, and machine learning. This project explores the use of DTW for time series clustering, and assess its performance on [Kaggle's](https://www.kaggle.com/datasets/stephengoldie/big-databiopharmaceutical-manufacturing), "Big Data Biopharmaceutical Manufacturing" dataset.
+Dynamic Time Warping (DTW) is an effective method for measuring the similarity between temporal sequences that may vary in speed. It is widely used in data mining, pattern recognition, and machine learning, particularly for time series clustering tasks. In this blog post, we delve into the application of DTW for time series clustering and evaluate its performance using Kaggle's "Big Data Biopharmaceutical Manufacturing" dataset.
 
-### Data
+### Understanding the Challenge
+
+In real-world scenarios, time series data can be challenging to compare directly, especially in the case of fermentation processes where factors like temperature, pH, and dissolved oxygen can vary from batch to batch. Due to these variations, direct comparisons between time series become impractical. DTW comes to the rescue by offering a solution for measuring similarity between temporal sequences with differing speeds, making it an ideal candidate for time series clustering.
+
+
+### Dataset
 
 The data provided by Kaggle is a collection of time series data from a biopharmaceutical manufacturing process. The data consists of 100 batches. The data is provided in a CSV file, with each row representing a single observation, and each column representing a single time series. The data is provided in a "wide" format, with each time series in a separate column. The data is also provided in a "long" format, with each observation in a separate row. The data is provided in both formats to allow for easy use with different software packages.
 
-### Why DTW?
+### How DTW Works
+DTW tackles the challenge of measuring similarity between two time series through a computationally intensive yet powerful algorithm. It constructs a cost matrix by comparing each point in one series with every point in the other series. The matrix helps find the optimal path with the lowest cost, effectively aligning the two sequences to minimize their overall dissimilarity. The resulting optimal path provides the basis for calculating the distance between the two time series.
 
-In an ideal world, time series would be the same and we could directly compare two of them similarities, but given the nature of fermentation time series data this is not the case. The fermentation process is a complex process that is affected by many factors, including temperature, pH, and dissolved oxygen. These factors are not constant, and can vary from batch to batch. This means that the time series data for each batch is not directly comparable. DTW is a method for measuring similarity between two temporal sequences which may vary in speed. It is a powerful tool for time series clustering, and is often used in the fields of data mining, pattern recognition, and machine learning.
 
-### How does it work?
+### Utilizing DTW with Python
+To demonstrate the application of DTW for time series clustering, we utilize the [fastDTW](https://github.com/rmaestre/FastDTW) package for efficient computation.
 
-While computationally a very expensive algorithm, it works by comparing to sequences and creating a cost matrix, aligning the two series to minimize the overall cost or measure of dissimilarity. With the smallest cost suggesting the two series are most similar. The cost matrix is created by comparing each point in the series to every other point in the other series. The cost matrix is then used to find the optimal path through the matrix, which is the path with the lowest cost. The optimal path is then used to calculate the distance between the two series.
+1. **Transform data shape**
 
-### How to use it?
+The first step involves transforming the Kaggle dataset into a wide format, where each row represents a series and each column represents a time step. This is achieved using the following Python function:
 
-Utilizing the [fastDTW](https://github.com/rmaestre/FastDTW) package
 
-#### Transform data shape
-
-Taking the original kaggle dataset, and tranforming into a wide format, with each row representing a series and each column representing a time step.
 
 ```python
 
@@ -35,7 +37,10 @@ def padded_wide(variable_data, parameter):
     return wide
 ```
 
-#### Utilize the dtw package to calculate the distance matrix
+2. **Calculating the distance matrix**
+
+Using the fastdtw function, we calculate pairwise distances between all time series in the dataset. The distances are then stored in a square matrix called pairwise_distances_dtw, where each entry (i, j) represents the DTW distance between time series i and time series j.
+
 
 ```python
 # Calculate pairwise distances using DTW
@@ -47,11 +52,11 @@ for i in range(len(time_series_data)):
         pairwise_distances_dtw[i, j] = distance
         pairwise_distances_dtw[j, i] = distance
 ```
-The output of this code is a square matrix pairwise_distances_dtw, where each entry at position (i, j) represents the DTW distance between the time series data at index i and index j. Since DTW is symmetric, the distances are calculated only for the upper triangular part of the matrix, and the lower triangular part is filled accordingly to maintain symmetry.
 
-#### Applying clustering algorithms
+3. **Applying K-means Clustering:**
 
-Now that we have a distance matrix, we can apply any clustering algorithm to the data. In this example, we will use K-means clustering. The K-means algorithm requires us to specify the number of clusters to use. We will use the elbow method to determine the optimal number of clusters.
+With the distance matrix ready, we can apply any clustering algorithm, such as K-means, to group similar time series together. To determine the optimal number of clusters, we use the elbow method, which helps identify the "elbow point" on the plot of inertia (within-cluster sum of squares) against the number of clusters. In this case, we select the number of clusters with the highest silhouette score as our ideal choice.
+
 
 ```python
 # Perform K-means clustering for different numbers of clusters
@@ -97,18 +102,17 @@ print("Ideal number of clusters is", ideal_n)
 ```
 When actually separating the data into 4 clusters, we can see that the data is not well separated into 2 clusters, but rather 4.
 
-Here is the comparison 2 clusters vs 4 clusters.
-<img src="images/dtw/2clust.png?raw=true"/>
-vs.
-<img src="images/dtw/4clust.png?raw=true"/>
+| 2 Clusters                    | 4 Clusters                    |
+| :-------------------------:  | :-------------------------:  |
+<img src="images/dtw/2clust.png?raw=true"/> | <img src="images/dtw/4clust.png?raw=true"/> |
 
-As we see, while not statically shown the 4 clusters are more distinct than the 2 clusters. With each population seemingly matching the other trends in the cluster.
 
+
+As we see, while not statically shown the 4 clusters are more distinctly seperated into simlar behavior runs than the 2 clusters.
 
 ### Conclusion
 
-In conclusion, Dynamic Time Warping is a powerful tool for time series clustering, a It is a computationally expensive algorithm, but can be used to cluster time series data that is not directly comparable. In this example, we used DTW to cluster time series data from a biopharmaceutical manufacturing process. We found that the optimal number of clusters was 4, and that it is clear the differenves in each cluster show different behaviors in the fermentation process.
-
+Dynamic Time Warping is a valuable tool for time series clustering, particularly when dealing with data that is not directly comparable due to varying speeds. Despite its computational intensity, DTW can be applied effectively to cluster time series data. In this project, we used DTW to cluster time series from a biopharmaceutical manufacturing process. The results indicated that the optimal number of clusters was 4, and the clustering successfully revealed distinct behaviors within the fermentation process.
 
 
 
